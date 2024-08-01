@@ -1,0 +1,14 @@
+volumes:
+  rabbitmq_data:
+  rabbitmq_log:
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq
+        - rabbitmq_log:/var/log/rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
