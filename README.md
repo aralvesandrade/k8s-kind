@@ -35,6 +35,7 @@ kubectl apply -f k8s/rabbitmq-deployment.yaml
 kubectl apply -f k8s/producer/deployment.yaml
 kubectl apply -f k8s/consumer/deployment.yaml
 kubectl apply -f k8s/result-analyzer-program/deployment.yaml
+kubectl apply -f k8s/metrics-server.yaml
 ```
 
 Comandos

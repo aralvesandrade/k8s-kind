@@ -16,6 +16,15 @@ spec:
         - name: producer
           image: aralvesandrade/producer:latest
           command: ["/app/main"]
+
+          resources:
+            requests:
+              cpu: "0.05"
+              memory: 20Mi
+            limits:
+              cpu: "0.05"
+              memory: 25Mi
+
           env:
             - name: RABBITMQ_URL
               value: "amqp://guest:guest@rabbitmq:5672/"
