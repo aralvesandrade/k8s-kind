@@ -70,8 +70,8 @@ metadata:
 spec:
   minReplicaCount: 0 # Optional. Default: 0
   pollingInterval: 10 # How often KEDA will check the RabbitMQ queue
-  successfulJobsHistoryLimit: 100 # Number of successful jobs to keep
-  failedJobsHistoryLimit: 100 # Number of failed jobs to keep
+  successfulJobsHistoryLimit: 10 # Number of successful jobs to keep
+  failedJobsHistoryLimit: 10 # Number of failed jobs to keep
   maxReplicaCount: 20 # Maximum number of jobs that KEDA can create
   jobTargetRef:
     template:
