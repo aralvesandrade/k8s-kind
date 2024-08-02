@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: consumer
+  name: consumer2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: consumer
+      app: consumer2
   template:
     metadata:
       labels:
-        app: consumer
+        app: consumer2
     spec:
       containers:
-        - name: consumer
+        - name: consumer2
           image: aralvesandrade/consumer:latest
           command: ["/app/main"]
           env:
@@ -31,7 +31,6 @@ apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
   name: keda-trigger-auth-rabbitmq-conn
-  #namespace: default
 spec:
   secretTargetRef:
     - parameter: host
@@ -42,12 +41,11 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: rabbitmq-scaledobject
-  #namespace: default
 spec:
-  minReplicaCount: 1
+  minReplicaCount: 0
   pollingInterval: 10
   scaleTargetRef:
-    name: consumer
+    name: consumer2
   triggers:
     - type: rabbitmq
       metadata:
