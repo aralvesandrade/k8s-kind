@@ -1,7 +1,7 @@
 Criar cluster usando cli `KIND`(https://kind.sigs.k8s.io/)
 
 ```
-kind create cluster
+kind create cluster --config=k8s/kind.yaml
 ```
 
 Listar informações do cluster
@@ -45,8 +45,8 @@ kubectl get pods
 kubectl logs svc/producer -f
 kubectl logs deployment/consumer -f
 kubectl logs pod/{name-pod} -f
-kubectl port-forward svc/producer 5001:5001
 kubectl port-forward svc/rabbitmq 15672:15672
+kubectl port-forward svc/producer 5001:5001
 kubectl get services
 ```
 
