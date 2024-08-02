@@ -32,8 +32,9 @@ Aplicar manifestos
 
 ```
 kubectl apply -f k8s/rabbitmq-deployment.yaml
-kubectl apply -f k8s/producer-deployment.yaml
-kubectl apply -f k8s/consumer-deployment.yaml
+kubectl apply -f k8s/producer/deployment.yaml
+kubectl apply -f k8s/consumer/deployment.yaml
+kubectl apply -f k8s/result-analyzer-program/deployment.yaml
 ```
 
 Comandos
@@ -68,4 +69,19 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 kubectl port-forward svc/argocd-server 5002:443 -n argocd
 kubectl apply -f argocd/consumer/values.yaml
 kubectl apply -f argocd/producer/values.yaml
+```
+
+Keda
+
+```
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+helm install keda kedacore/keda --namespace keda --create-namespace
+echo -n 'amqp://guest:guest@rabbitmq.default:5672/' | base64
+```
+
+Aplicando um stress test
+
+```
+kubectl run -it fortio --rm --image=fortio/fortio -- load -qps 800 -t 120s -c 70 "http://producer:5001/hello"
 ```
