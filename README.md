@@ -46,6 +46,7 @@ kubectl logs svc/producer -f
 kubectl logs deployment/consumer -f
 kubectl logs pod/{name-pod} -f
 kubectl port-forward svc/producer 5001:5001
+kubectl port-forward svc/rabbitmq 15672:15672
 kubectl get services
 ```
 
@@ -77,6 +78,7 @@ Keda
 helm repo add kedacore https://kedacore.github.io/charts
 helm repo update
 helm install keda kedacore/keda --namespace keda --create-namespace
+echo -n 'amqp://guest:guest@rabbitmq:5672' | base64
 echo -n 'amqp://guest:guest@rabbitmq.default:5672/' | base64
 ```
 
