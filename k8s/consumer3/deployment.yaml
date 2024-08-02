@@ -13,39 +13,6 @@ metadata:
 data:
   host: "YW1xcDovL2d1ZXN0Omd1ZXN0QHJhYmJpdG1xLmRlZmF1bHQ6NTY3Mi8="
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: consumer3
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: consumer3
-  template:
-    metadata:
-      labels:
-        app: consumer3
-    spec:
-      containers:
-        - name: consumer3
-          image: ghcr.io/kedify/blog05-cli-consumer-program:latest
-          command: ["/bin/bash"]
-          args: ["/scripts/consumer-script.sh"]
-          volumeMounts:
-            - name: script-volume
-              mountPath: /scripts
-          env:
-            - name: RABBITMQ_URL
-              valueFrom:
-                secretKeyRef:
-                  name: rabbitmq-credentials
-                  key: address
-      volumes:
-        - name: script-volume
-          configMap:
-            name: consumer-script-config
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
