@@ -61,6 +61,16 @@ kubectl -n kubernetes-dashboard create token admin-user
 kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
 ```
 
+Keda
+
+```
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+helm install keda kedacore/keda --namespace keda --create-namespace
+echo -n 'amqp://guest:guest@rabbitmq:5672' | base64
+echo -n 'amqp://guest:guest@rabbitmq.default:5672/' | base64
+```
+
 ArgoCD
 
 ```
@@ -72,16 +82,6 @@ kubectl apply -f argocd/consumer/values.yaml
 kubectl apply -f argocd/producer/values.yaml
 kubectl apply -f argocd/consumer2/values.yaml
 kubectl apply -f argocd/consumer3/values.yaml
-```
-
-Keda
-
-```
-helm repo add kedacore https://kedacore.github.io/charts
-helm repo update
-helm install keda kedacore/keda --namespace keda --create-namespace
-echo -n 'amqp://guest:guest@rabbitmq:5672' | base64
-echo -n 'amqp://guest:guest@rabbitmq.default:5672/' | base64
 ```
 
 Aplicando um stress test
