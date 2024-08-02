@@ -101,6 +101,11 @@ metadata:
   name: rabbitmq-scaledjob
   namespace: default
 spec:
+  minReplicaCount: 0 # Optional. Default: 0
+  pollingInterval: 10 # How often KEDA will check the RabbitMQ queue
+  successfulJobsHistoryLimit: 100 # Number of successful jobs to keep
+  failedJobsHistoryLimit: 100 # Number of failed jobs to keep
+  maxReplicaCount: 100 # Maximum number of jobs that KEDA can create
   jobTargetRef:
     template:
       spec:
@@ -123,10 +128,6 @@ spec:
             configMap:
               name: consumer-script-config
         restartPolicy: Never
-  pollingInterval: 10 # How often KEDA will check the RabbitMQ queue
-  successfulJobsHistoryLimit: 100 # Number of successful jobs to keep
-  failedJobsHistoryLimit: 100 # Number of failed jobs to keep
-  maxReplicaCount: 100 # Maximum number of jobs that KEDA can create
   scalingStrategy:
     strategy: "default" # Scaling strategy (default, custom, or accurate)
   triggers:
