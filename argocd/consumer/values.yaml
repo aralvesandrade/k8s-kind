@@ -1,6 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: consumer-worker
+  namespace: argocd
 spec:
-  destination:
-    server: https://kubernetes.default.svc
+  project: default
   source:
-    repoURL: https://github.com/aralvesandrade/k8s-kind
+    repoURL: "https://github.com/aralvesandrade/k8s-kind"
     targetRevision: HEAD
+    path: k8s/consumer
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default
