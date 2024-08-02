@@ -42,8 +42,9 @@ kind: ScaledObject
 metadata:
   name: rabbitmq-scaledobject
 spec:
-  minReplicaCount: 0
-  pollingInterval: 10
+  #minReplicaCount: 0 # Optional. Default: 0
+  pollingInterval: 10 # Optional. Default: 5 seconds
+  cooldownPeriod: 10 # Optional. Default: 300 seconds
   scaleTargetRef:
     name: consumer2
   triggers:
