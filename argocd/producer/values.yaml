@@ -1,6 +1,8 @@
-spec:
-  destination:
-    server: https://kubernetes.default.svc
-  source:
-    repoURL: https://github.com/aralvesandrade/k8s-kind
-    targetRevision: HEAD
+# spec:
+#   destination:
+#     server: https://kubernetes.default.svc
+#   source:
+#     repoURL: https://github.com/aralvesandrade/k8s-kind
+#     targetRevision: HEAD
+resources:
+  - k8s/producer-deployment.yaml
