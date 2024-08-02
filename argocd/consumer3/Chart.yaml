@@ -1,0 +1,4 @@
+apiVersion: "v2"
+name: "consumer-worker3"
+type: "application"
+version: "0.1.0"
