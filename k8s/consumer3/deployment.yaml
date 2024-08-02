@@ -16,19 +16,19 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: consumer2
+  name: consumer3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: consumer2
+      app: consumer3
   template:
     metadata:
       labels:
-        app: consumer2
+        app: consumer3
     spec:
       containers:
-        - name: consumer2
+        - name: consumer3
           image: ghcr.io/kedify/blog05-cli-consumer-program:latest
           command: ["/bin/bash"]
           args: ["/scripts/consumer-script.sh"]
