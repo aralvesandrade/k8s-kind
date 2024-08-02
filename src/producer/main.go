@@ -77,6 +77,8 @@ func main() {
 			return
 		}
 
+		fmt.Println(string(body))
+
 		fmt.Fprintf(w, "Message sent: %s", body)
 	})
 
