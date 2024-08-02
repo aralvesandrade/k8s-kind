@@ -87,5 +87,5 @@ kubectl apply -f argocd/consumer3/values.yaml
 Aplicando um stress test
 
 ```
-kubectl run -it fortio --rm --image=fortio/fortio -- load -qps 800 -t 120s -c 70 "http://producer:5001/hello"
+kubectl run -it fortio --rm --image=fortio/fortio -- load -qps 10 -t 10s -c 4 "http://producer:5001/hello"
 ```
