@@ -70,6 +70,8 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 kubectl port-forward svc/argocd-server 5002:443 -n argocd
 kubectl apply -f argocd/consumer/values.yaml
 kubectl apply -f argocd/producer/values.yaml
+kubectl apply -f argocd/consumer2/values.yaml
+kubectl apply -f argocd/consumer3/values.yaml
 ```
 
 Keda
