@@ -116,6 +116,10 @@ kubectl -n monitoring port-forward svc/grafana 3000:80
 kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
+Criar conexão Data sources > Prometheus, configurar URL: `prometheus-server.monitoring:80`
+
+Para monitorar os containers do K8s precisa importar o dashboard ``()
+
 Aplicando um stress test
 
 ```
