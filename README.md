@@ -91,6 +91,37 @@ kubectl apply -f argocd/consumer2/values.yaml
 kubectl apply -f argocd/consumer3/values.yaml
 ```
 
+Prometheus
+
+```
+kubectl create namespace monitoring
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/prometheus --namespace monitoring --set=kube-state-metrics.enabled=true
+kubectl get pods -n monitoring
+kubectl get services -n monitoring
+kubectl -n monitoring port-forward svc/prometheus-server 9090:80
+```
+
+Grafana
+
+```
+kubectl create namespace monitoring
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm install grafana grafana/grafana --namespace monitoring
+kubectl get pods -n monitoring
+kubectl get services -n monitoring
+kubectl -n monitoring port-forward svc/grafana 3000:80
+kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+Criar conexão Data sources > Prometheus, configurar URL: `http://prometheus-server.monitoring:80`
+
+Para monitorar os containers do K8s precisa importar o dashboard `12740`(https://grafana.com/grafana/dashboards/12740-kubernetes-monitoring/)
+
+Ou algo mais completo!
+
 Prometheus e Grafana
 
 ```
