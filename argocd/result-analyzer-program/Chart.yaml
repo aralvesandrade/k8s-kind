@@ -1,0 +1,4 @@
+apiVersion: "v2"
+name: "result-analyzer-program"
+type: "application"
+version: "0.1.0"

@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: result-analyzer-program
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/aralvesandrade/k8s-kind"
+    targetRevision: HEAD
+    path: k8s/result-analyzer-program
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default

@@ -87,6 +87,7 @@ kubectl get pods -n argocd
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 kubectl port-forward svc/argocd-server 5002:443 -n argocd
 kubectl apply -f argocd/rabbitmq/values.yaml -f argocd/producer/values.yaml -f argocd/consumer/values.yaml
+kubectl apply -f argocd/result-analyzer-program/values.yaml
 kubectl apply -f argocd/consumer2/values.yaml
 kubectl apply -f argocd/consumer3/values.yaml
 ```
