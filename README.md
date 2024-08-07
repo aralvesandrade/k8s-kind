@@ -137,6 +137,21 @@ kubectl port-forward svc/prometheus-operator-grafana -n monitoring 3000:80
 kubectl get secret --namespace monitoring prometheus-operator-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
+Instalar argocd CLI
+
+```
+VERSION=$(curl -L -s https://raw.githubusercontent.com/argoproj/argo-cd/stable/VERSION)
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/v$VERSION/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+```
+
+Fazer login usando argocd CLI
+
+```
+argocd login localhost:5002 --username admin --password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d) --insecure
+```
+
 Aplicando um stress test
 
 ```
