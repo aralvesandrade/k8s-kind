@@ -1,14 +1,26 @@
-Criar cluster usando cli `KIND`(https://kind.sigs.k8s.io/)
+No exemplo abaixo cito duas opções de ferramentas de linha de comando (CLI) que ajudam a criar e gerenciar clusters Kubernetes localmente para desenvolvimento e testes, sendo elas: `kind`(https://kind.sigs.k8s.io/) ou `minikube`(https://minikube.sigs.k8s.io/docs/)
+
+# Kind
+
+Criar um cluster usando `kind`
 
 ```
+kind create cluster
+#ou
 kind create cluster --config=k8s/kind-config.yaml
+#ou
+kind create cluster --config=k8s/kind-config.yaml --name {nome_cluster}
 ```
 
 Listar informações do cluster
 
 ```
 kind get clusters
-#kubectl cluster-info --context kind-{name-cluster}
+```
+
+Exibir informações do cluster Kubernetes que está ativo no contexto especificado, usando o comando `kubectl cluster-info --context kind-{nome_cluster}`
+
+```
 kubectl cluster-info --context kind-kind
 ```
 
@@ -23,6 +35,26 @@ Deletar cluster
 ```
 kind delete cluster
 ```
+
+# Minikube
+
+```
+minikube start
+kubectl get po -A
+minikube kubectl -- get po -A
+minikube dashboard
+kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+kubectl get services hello-minikube
+minikube service hello-minikube
+kubectl port-forward service/hello-minikube 7080:8080
+minikube pause
+minikube unpause
+minikube stop
+minikube delete --all
+```
+
+# Docker
 
 Criar imagem e publicar imagem docker
 
@@ -41,7 +73,7 @@ kubectl apply -f k8s/metrics-server.yaml
 kubectl apply -f k8s/result-analyzer-program/deployment.yaml
 ```
 
-Comandos
+Alguns exemplos de comandos
 
 ```
 kubectl get deployments
@@ -54,7 +86,7 @@ kubectl port-forward svc/producer 5001:5001
 kubectl get services
 ```
 
-K8s Dashboard UI
+K8s Dashboard UI (no exemplo no kind não se aplica)
 
 ```
 sudo snap install helm --classic
@@ -86,10 +118,18 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl get pods -n argocd
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 kubectl port-forward svc/argocd-server 5002:443 -n argocd
-kubectl apply -f argocd/rabbitmq/values.yaml -f argocd/producer/values.yaml -f argocd/consumer/values.yaml
-kubectl apply -f argocd/result-analyzer-program/values.yaml
-kubectl apply -f argocd/consumer2/values.yaml
-kubectl apply -f argocd/consumer3/values.yaml
+kubectl apply -f argocd/rabbitmq -f argocd/producer -f argocd/consumer
+kubectl apply -f argocd/result-analyzer-program
+kubectl apply -f argocd/consumer2
+kubectl apply -f argocd/consumer3
+```
+
+Usando o `minikube`
+
+```
+kubectl delete svc argocd-server -n argocd
+kubectl expose deployment argocd-server -n argocd --type=NodePort --port=8080
+minikube service argocd-server -n argocd
 ```
 
 Prometheus
