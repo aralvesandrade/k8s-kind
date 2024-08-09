@@ -84,6 +84,7 @@ kubectl logs pod/{name-pod} -f
 kubectl port-forward svc/rabbitmq 15672:15672
 kubectl port-forward svc/producer 5001:5001
 kubectl get services
+kubectl top pods
 ```
 
 K8s Dashboard UI (no exemplo no kind não se aplica)
