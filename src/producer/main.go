@@ -25,7 +25,7 @@ type Message struct {
 
 func failOnError(err error, msg string) {
 	if err != nil {
-		logger.Error("%s: %s", msg, err)
+		logger.Error(fmt.Sprintf("%s: %s", msg, err.Error()))
 		os.Exit(1)
 	}
 }
