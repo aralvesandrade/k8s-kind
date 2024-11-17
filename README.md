@@ -10,6 +10,10 @@ kind create cluster
 kind create cluster --config=k8s/kind-config.yaml
 #ou
 kind create cluster --config=k8s/kind-config.yaml --name {nome_cluster}
+#ou usar mesma rede do docker já existeste
+docker network ls
+export KIND_EXPERIMENTAL_DOCKER_NETWORK=my-network
+kind create cluster --config=k8s/kind-config.yaml
 ```
 
 Listar informações do cluster
@@ -28,6 +32,12 @@ Listar todos os clusters
 
 ```
 kubectl config get-clusters
+```
+
+Listar todos os nodes
+
+```
+kubectl get nodes -o wide
 ```
 
 Deletar cluster
@@ -96,7 +106,11 @@ helm repo update
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
 kubectl get pods -n kubernetes-dashboard
 kubectl apply -f k8s/kubernetes-dashboard.yaml
+kubectl get svc -n kubernetes-dashboard
 kubectl -n kubernetes-dashboard create token admin-user
+kubectl patch svc kubernetes-dashboard-kong-proxy -p '{"spec": {"type": "NodePort"}}' -n kubernetes-dashboard
+kubectl get svc -n kubernetes-dashboard
+#ou
 kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
 ```
 
