@@ -3,14 +3,19 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"github.com/streadway/amqp"
+)
+
+var (
+	logger *slog.Logger
 )
 
 type Message struct {
@@ -20,11 +25,20 @@ type Message struct {
 
 func failOnError(err error, msg string) {
 	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
+		logger.Error(fmt.Sprintf("%s: %s", msg, err.Error()))
+		os.Exit(1)
 	}
 }
 
 func main() {
+	logLevel := parseLogLevel("DEBUG")
+
+	logHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: logLevel,
+	})
+	logger = slog.New(logHandler)
+	slog.SetDefault(logger)
+
 	err := godotenv.Load()
 	if err != nil {
 		failOnError(err, "Failed loading settings from .env")
@@ -77,11 +91,28 @@ func main() {
 			return
 		}
 
-		fmt.Println(string(body))
-
-		fmt.Fprintf(w, "Message sent: %s", body)
+		logger.Debug(fmt.Sprintf("Message sent: %s", string(body)))
 	})
 
-	log.Printf("API is running on port 5001...")
-	log.Fatal(http.ListenAndServe(":5001", nil))
+	logger.Info("API is running on port 5001...")
+
+	if err := http.ListenAndServe(":5001", nil); err != nil {
+		failOnError(err, "Failed to start HTTP server")
+	}
+}
+
+func parseLogLevel(logLevel string) slog.Level {
+	logLevel = strings.ToUpper(logLevel)
+	switch logLevel {
+	case "DEBUG":
+		return slog.LevelDebug
+	case "INFO":
+		return slog.LevelInfo
+	case "WARN":
+		return slog.LevelWarn
+	case "ERROR":
+		return slog.LevelError
+	default:
+		return slog.LevelInfo
+	}
 }
