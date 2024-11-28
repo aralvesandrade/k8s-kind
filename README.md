@@ -146,10 +146,16 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl get pods -n argocd
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 kubectl port-forward svc/argocd-server 5002:443 -n argocd
+#ou
+kubectl get svc -n argocd
+kubectl patch svc argocd-server -p '{"spec": {"type": "NodePort"}}' -n argocd
+kubectl get svc -n argocd
 kubectl apply -f argocd/rabbitmq -f argocd/producer -f argocd/consumer
 kubectl apply -f argocd/result-analyzer-program
 kubectl apply -f argocd/consumer2
 kubectl apply -f argocd/consumer3
+#ou
+kubectl patch svc producer -p '{"spec": {"type": "NodePort"}}'
 ```
 
 Usando o `minikube`
