@@ -125,6 +125,19 @@ echo -n 'amqp://guest:guest@rabbitmq:5672' | base64
 echo -n 'amqp://guest:guest@rabbitmq.default:5672/' | base64
 ```
 
+OpenFaaS
+
+```
+helm repo add openfaas https://openfaas.github.io/faas-netes/
+helm repo update
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+helm upgrade openfaas --install openfaas/openfaas --namespace openfaas
+kubectl get pods -n openfaas
+kubectl -n openfaas get deployments -l "release=openfaas, app=openfaas"
+kubectl get svc -n openfaas
+echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
+```
+
 ArgoCD
 
 ```
